@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {DataService} from "../../data.service";
+import {Room} from "../../model/Room";
+
 
 @Component({
   selector: 'mn-rooms',
@@ -8,5 +11,8 @@ import { Component } from '@angular/core';
   styleUrl: './rooms.component.css'
 })
 export class RoomsComponent {
+rooms!: Array<Room>;
+  constructor(private dataService: DataService) {
+  }
 
 }
