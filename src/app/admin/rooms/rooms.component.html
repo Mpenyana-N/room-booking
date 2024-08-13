@@ -12,18 +12,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr> <!-- repeat the tr for each room -->
-        <td>id placeholder</td>
-        <td>name placeholder</td>
-        <td>
-          <button type="button" class="btn btn-primary">view</button>
-        </td>
-      </tr>
+      @for (room of rooms; track room.id) {
+      <tr>
+  <td>{{room.id}}</td>
+  <td>{{room.name}}</td>
+  <td>
+    <button type="button" class="btn btn-primary" (click)="setRoom(room.id)">view</button>
+  </td>
+</tr>
+      }
       </tbody>
     </table>
   </div>
   <div class="col-6">
-    ROOM DETAIL WILL GO HERE
+    <mn-room-detail [room]="selectedRoom"></mn-room-detail>
   </div>
 </div>
 
