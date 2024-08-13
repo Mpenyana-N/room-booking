@@ -25,7 +25,9 @@
     </table>
   </div>
   <div class="col-6">
+    @if(selectedRoom) {
     <mn-room-detail [room]="selectedRoom"></mn-room-detail>
+    }
   </div>
 </div>
 
