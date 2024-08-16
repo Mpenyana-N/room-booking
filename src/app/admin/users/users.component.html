@@ -22,8 +22,10 @@
     </table>
   </div>
   <div class="col-6">
-    @if (selectedUser) {
+    @if (action === 'view') {
     <mn-user-detail [user]="selectedUser"></mn-user-detail>
+    } @else if (action === 'edit') {
+    <mn-user-edit [user]="selectedUser"></mn-user-edit>
     }
   </div>
 </div>

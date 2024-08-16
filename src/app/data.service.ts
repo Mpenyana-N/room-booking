@@ -1,14 +1,32 @@
 import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "./model/Room";
 import {User} from "./model/User";
+import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  rooms: Array<Room>;
-  users: Array<User>;
+ private rooms: Array<Room>;
+ private users: Array<User>;
+
+ getRooms() : Observable<Array<Room>> {
+   return of(this.rooms);
+ }
+
+ getUsers() : Observable<Array<User>> {
+   return of(this.users)
+ }
+
+ updateUser(user: User) : Observable<any> {
+  const originalUser = this.users.find((u) => u.id === user.id);
+  if (originalUser) {
+    originalUser.name = user.name;
+  }
+   return of(originalUser);
+
+ }
 
   constructor() {
     this.rooms = new Array<Room>();

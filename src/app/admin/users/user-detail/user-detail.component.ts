@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../../model/User";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'mn-user-detail',
@@ -10,6 +11,13 @@ import {User} from "../../../model/User";
 })
 export class UserDetailComponent {
 
+  constructor(private router: Router) {
+  }
+
  @Input({required: true}) user!: User;
+
+ editUser() {
+    this.router.navigate(['admin', 'users'], {queryParams: {action: 'edit', id: this.user.id}})
+ }
 
 }

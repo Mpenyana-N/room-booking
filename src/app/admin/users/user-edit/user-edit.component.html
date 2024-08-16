@@ -1,0 +1,28 @@
+<h1> {{user.id == null ? 'add' : 'edit'}} User</h1>
+
+@if (message) {
+<div class="bg-warning p-5">{{message}}</div>
+}
+
+<form>
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name"
+           placeholder="user name" [(ngModel)]="userForm.name" name="name">
+    <div class="alert alert-danger">error message placeholder</div>
+
+  </div>
+  @if (!user.id) {
+  <div class="form-group"> <!-- only show this field on adding a user -->
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" placeholder="password">
+    <div class="alert alert-danger">error message placeholder</div>
+  </div>
+  }
+
+  <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
+</form>
+
+
+
