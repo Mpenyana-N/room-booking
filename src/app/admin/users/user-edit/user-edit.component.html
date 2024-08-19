@@ -13,7 +13,7 @@
     <div class="alert alert-danger">error message placeholder</div>
 
   </div>
-  @if (!user.id) {
+  @if (user.id == null) {
   <div class="form-group"> <!-- only show this field on adding a user -->
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="password">

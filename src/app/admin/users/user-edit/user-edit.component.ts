@@ -17,6 +17,7 @@ export class UserEditComponent implements OnInit{
   @Input({required: true}) user!: User | any;
 
   userForm!: User | any
+  password!: string;
 
   ngOnInit(): void {
     this.userForm = Object.assign({}, this.user);
@@ -28,9 +29,17 @@ export class UserEditComponent implements OnInit{
   }
 
   onSubmit() {
-    this.dataService.updateUser(this.userForm).subscribe((user) => {
-      this.router.navigate(['admin', 'users'], {queryParams: {action: 'view', id: user.id}})
-    })
+    if (this.userForm.id == null) {
+      this.dataService.addNewUser(this.userForm, this.password).subscribe((user) =>{
+        this.router.navigate(['admin', 'users'], {queryParams: {action: 'view', id: user.id}})
+      })
+
+
+    } else {
+      this.dataService.updateUser(this.userForm).subscribe((user) => {
+        this.router.navigate(['admin', 'users'], {queryParams: {action: 'view', id: user.id}})
+      });
+    }
   }
 
 

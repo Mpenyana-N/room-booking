@@ -28,6 +28,20 @@ export class DataService {
 
  }
 
+ addNewUser(newUser: User, password: string) : Observable<User> {
+   let id: any = 0;
+   for (const user of this.users) {
+     if (user.id) {
+       if (user.id > id) {
+         id = user.id
+       }
+     }
+   }
+   newUser.id = id + 1;
+   this.users.push(newUser);
+   return of(newUser);
+ }
+
   constructor() {
     this.rooms = new Array<Room>();
     const room1 = new Room();
