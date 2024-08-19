@@ -18,6 +18,9 @@ export class UserEditComponent implements OnInit{
 
   userForm!: User | any
   password!: string;
+  password2!: string;
+
+  isPasswordValid = false
 
   ngOnInit(): void {
     this.userForm = Object.assign({}, this.user);
@@ -42,5 +45,8 @@ export class UserEditComponent implements OnInit{
     }
   }
 
+  checkPasswordValid() {
+    this.isPasswordValid = this.password.trim().length > 0;
+  }
 
 }

@@ -9,15 +9,28 @@
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name"
-           placeholder="user name" [(ngModel)]="userForm.name" name="name">
+           placeholder="user name" [(ngModel)]="userForm.name" name="name" required>
     <div class="alert alert-danger">error message placeholder</div>
 
   </div>
   @if (user.id == null) {
   <div class="form-group"> <!-- only show this field on adding a user -->
     <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" placeholder="password">
-    <div class="alert alert-danger">error message placeholder</div>
+    <input type="password" class="form-control" id="password" placeholder="password"
+     name="password" required [(ngModel)]="password" #passField="ngModel" (change)="checkPasswordValid()" >
+     @if (passField.invalid && passField.touched) {
+    <div class="alert alert-danger">Password is required</div>
+  }
+    @if (!isPasswordValid && passField.touched) {
+    <div class="alert alert-danger">Password must not be blank</div>
+    }
+
+    <label for="password2">Confirm Password</label>
+    <input type="password" class="form-control" id="password2" placeholder="password"
+     name="password2" required [(ngModel)]="password2">
+     @if (password !==password2) {
+    <div class="alert alert-danger">Password does not match</div>
+      }
   </div>
   }
 
