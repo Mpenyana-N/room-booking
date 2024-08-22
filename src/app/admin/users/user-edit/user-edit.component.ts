@@ -20,11 +20,14 @@ export class UserEditComponent implements OnInit{
   password!: string;
   password2!: string;
 
-  isPasswordValid = false
+  isNameValid = false;
+  isPasswordValid = false;
+  passwordsMatch = false;
 
   ngOnInit(): void {
     this.userForm = Object.assign({}, this.user);
-
+    this.checkIfNameIsValid();
+    this.checkIfPasswordIsValid();
   }
 
   constructor(private dataService: DataService,
@@ -45,8 +48,26 @@ export class UserEditComponent implements OnInit{
     }
   }
 
-  checkPasswordValid() {
-    this.isPasswordValid = this.password.trim().length > 0;
+  checkIfNameIsValid() {
+    if (this.userForm.name) {
+      this.isNameValid = this.userForm.name.trim().length > 0;
+    } else {
+      this.isNameValid = false;
+    }
+
+  }
+
+  checkIfPasswordIsValid() {
+    if(this.userForm.id != null) {
+      this.isPasswordValid = true;
+    } else {
+      this.passwordsMatch = this.password === this.password2;
+      if(this.password) {
+        this.isPasswordValid = this.password.trim().length > 0;
+      } else {
+        this.isPasswordValid =false;
+      }
+    }
   }
 
 }

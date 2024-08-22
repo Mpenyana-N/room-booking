@@ -4,20 +4,25 @@
 <div class="bg-warning p-5">{{message}}</div>
 }
 
-<form>
+<form #saveForm="ngForm">
 
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name"
-           placeholder="user name" [(ngModel)]="userForm.name" name="name" required>
-    <div class="alert alert-danger">error message placeholder</div>
-
+           placeholder="user name" [(ngModel)]="userForm.name" name="name" required #nameField="ngModel"
+    (change)="checkIfNameIsValid()">
+    @if (nameField.invalid && nameField.touched) {
+    <div class="alert alert-danger">Name is required</div>
+     }
+    @if(!isNameValid && nameField.touched) {
+    <div class="alert alert-danger">Name can not be blank</div>
+      }
   </div>
   @if (user.id == null) {
   <div class="form-group"> <!-- only show this field on adding a user -->
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" placeholder="password"
-     name="password" required [(ngModel)]="password" #passField="ngModel" (change)="checkPasswordValid()" >
+     name="password" required [(ngModel)]="password" #passField="ngModel" (change)="checkIfPasswordIsValid()" >
      @if (passField.invalid && passField.touched) {
     <div class="alert alert-danger">Password is required</div>
   }
@@ -27,14 +32,13 @@
 
     <label for="password2">Confirm Password</label>
     <input type="password" class="form-control" id="password2" placeholder="password"
-     name="password2" required [(ngModel)]="password2">
-     @if (password !==password2) {
-    <div class="alert alert-danger">Password does not match</div>
-      }
+     name="password2" required [(ngModel)]="password2" (change)="checkIfPasswordIsValid()">
+    <div class="alert alert-danger" [hidden]="passwordsMatch">Passwords must match</div>
   </div>
   }
 
-  <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()"
+          [disabled]="saveForm.invalid || !isNameValid || !isPasswordValid || !passwordsMatch">Save</button>
 </form>
 
 
