@@ -60,6 +60,7 @@ export class UserEditComponent implements OnInit{
   checkIfPasswordIsValid() {
     if(this.userForm.id != null) {
       this.isPasswordValid = true;
+      this.isNameValid = true;
     } else {
       this.passwordsMatch = this.password === this.password2;
       if(this.password) {

@@ -1,6 +1,6 @@
 <h1>Rooms Admin</h1>
 
-<a class="btn btn-warning mb-3">add</a>
+<a class="btn btn-warning mb-3" (click)="addRoom()">add</a>
 <div class="row">
   <div class="col-6">
     <table class="table">
@@ -25,8 +25,10 @@
     </table>
   </div>
   <div class="col-6">
-    @if(selectedRoom) {
+    @if(action === 'view') {
     <mn-room-detail [room]="selectedRoom"></mn-room-detail>
+    } @else if (action === 'edit' || action === 'add') {
+    <mn-edit-room [room]="selectedRoom"></mn-edit-room>
     }
   </div>
 </div>

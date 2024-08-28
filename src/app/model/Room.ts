@@ -1,7 +1,7 @@
 export class Room {
 id?: number;
-name?: string;
-location?: string;
+name?: string | null;
+location?: string | null;
 capacities = new Array<LayoutCapacity>();
 
 }
