@@ -4,6 +4,7 @@ import {User} from "../../model/User";
 import {UserDetailComponent} from "./user-detail/user-detail.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserEditComponent} from "./user-edit/user-edit.component";
+import {FormResetService} from "../../form-reset.service";
 
 @Component({
   selector: 'mn-users',
@@ -20,7 +21,8 @@ export class UsersComponent implements OnInit{
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private formResetService: FormResetService) {
   }
 
   ngOnInit(): void {
@@ -36,7 +38,6 @@ export class UsersComponent implements OnInit{
           return user.id === +id;
         });
       }
-
     })
   }
 
@@ -47,7 +48,7 @@ export class UsersComponent implements OnInit{
   addUser() {
     this.selectedUser = new User();
     this.router.navigate(['admin', 'users'], {queryParams: { action: 'add'}});
-
+    this.formResetService.resetUserFormEvent.emit(this.selectedUser);
   }
 
 }

@@ -17,7 +17,7 @@ export class UserDetailComponent {
  @Input({required: true}) user!: User;
 
  editUser() {
-    this.router.navigate(['admin', 'users'], {queryParams: {action: 'edit', id: this.user.id}})
+    this.router.navigate(['admin', 'users'], {queryParams: {action: 'edit'}})
  }
 
 }
