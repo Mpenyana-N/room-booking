@@ -9,7 +9,7 @@ capacities = new Array<LayoutCapacity>();
 export class LayoutCapacity {
   id?: number;
   layout?: string;
-  capacity?: string | null;
+  capacity?: number;
 }
 
 export enum Layout {

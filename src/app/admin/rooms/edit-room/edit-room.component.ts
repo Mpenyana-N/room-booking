@@ -23,7 +23,7 @@ export class EditRoomComponent implements OnInit{
     roomName: FormControl<string | null>;
     location: FormControl<string | null>;
     // A specific type assertion is added to the roomForm to indicate that it can have additional string keys with FormControl<string | null> values.
-    [key: string]: FormControl<string | null>;
+    [key: string]: FormControl<string | any>;
   }>;
 
 
@@ -31,7 +31,6 @@ export class EditRoomComponent implements OnInit{
  }
 
   ngOnInit(): void {
-    // this.layouts = Object.keys(this.layoutEnum).filter(key => isNaN(Number(key)));
 
     this.roomForm = this.fb.group({
       roomName: this.fb.control('roomName'),
@@ -39,13 +38,14 @@ export class EditRoomComponent implements OnInit{
     });
 
     for (const layout of this.layouts) {
+      //finding our initial layout capacity values.Note the "Layout" is our enum
+      const layoutCapacity = this.room.capacities.find((lc) => lc.layout === Layout[layout]);
+      //when we get our layoutCapacity we then add it to our initialCapacity.
+      const initialCapacity = layoutCapacity == null ? '0' : layoutCapacity.capacity;
       this.roomForm.addControl(
         `layout${layout}`,
-        this.fb.control(`layout${layout}`)
+        this.fb.control(initialCapacity)
       );
-
-
-
     }
 
   }
