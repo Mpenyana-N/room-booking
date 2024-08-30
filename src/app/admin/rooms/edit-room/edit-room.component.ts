@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "../../../model/Room";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'mn-edit-room',
@@ -33,8 +33,8 @@ export class EditRoomComponent implements OnInit{
   ngOnInit(): void {
 
     this.roomForm = this.fb.group({
-      roomName: this.fb.control('roomName'),
-      location: this.fb.control('location')
+      roomName: this.fb.control('roomName', Validators.required),
+      location: this.fb.control('location', Validators.required)
     });
 
     for (const layout of this.layouts) {
@@ -62,10 +62,6 @@ export class EditRoomComponent implements OnInit{
       this.room.capacities.push(layoutCapacity);
 
     }
-
-    console.log(this.room)
-
-
   }
 
 
