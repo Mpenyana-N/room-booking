@@ -28,6 +28,28 @@ export class DataService {
 
  }
 
+ updateRoom(room: Room) : Observable<any> {
+   const originalRoom = this.rooms.find((r) => r.id === room.id);
+   if (originalRoom) {
+     originalRoom.name = room.name;
+   }
+   return of(originalRoom);
+ }
+
+ addNewRoom(newRoom: Room) : Observable<Room> {
+   let id: number | null = 0;
+   for (const room of this.rooms) {
+     if(room.id) {
+       if (room.id > id) {
+         id = room.id
+       }
+     }
+   }
+   newRoom.id = id + 1;
+   this.rooms.push(newRoom);
+   return  of(newRoom);
+ }
+
  addNewUser(newUser: User, password: string) : Observable<User> {
    let id: any = 0;
    for (const user of this.users) {

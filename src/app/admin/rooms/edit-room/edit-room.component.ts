@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "../../../model/Room";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {DataService} from "../../../data.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'mn-edit-room',
@@ -27,7 +29,9 @@ export class EditRoomComponent implements OnInit{
   }>;
 
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private dataService: DataService,
+              private router: Router) {
  }
 
   ngOnInit(): void {
@@ -62,6 +66,18 @@ export class EditRoomComponent implements OnInit{
       this.room.capacities.push(layoutCapacity);
 
     }
+    if (this.room.id == null) {
+      this.dataService.addNewRoom(this.room).subscribe((next) => {
+        this.router.navigate(['admin', 'rooms'], {queryParams: {action: 'view', id: next.id}});
+
+      })
+    } else {
+      this.dataService.updateRoom(this.room).subscribe((next) => {
+        this.router.navigate(['admin', 'rooms'], {queryParams: {action: 'view', id: next.id}});
+
+      })
+    }
+
   }
 
 
