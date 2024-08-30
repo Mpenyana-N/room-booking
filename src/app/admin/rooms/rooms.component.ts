@@ -4,6 +4,7 @@ import {Room} from "../../model/Room";
 import {RoomDetailComponent} from "./room-detail/room-detail.component";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {EditRoomComponent} from "./edit-room/edit-room.component";
+import {FormResetService} from "../../form-reset.service";
 
 
 @Component({
@@ -20,7 +21,8 @@ action!: string | any;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private formResetService: FormResetService) {
 
 
   }
@@ -40,6 +42,8 @@ action!: string | any;
       if(params['action'] === 'add') {
         this.selectedRoom = new Room();
         this.action = 'edit';
+        //Here we emit() our selectedRoom so we can be able to subscribe in our child Component
+        this.formResetService.resetRoomFormEvent.emit(this.selectedRoom);
       }
     });
   }

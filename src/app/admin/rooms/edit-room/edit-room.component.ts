@@ -1,8 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "../../../model/Room";
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {DataService} from "../../../data.service";
 import {Router} from "@angular/router";
+import {FormResetService} from "../../../form-reset.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'mn-edit-room',
@@ -12,7 +14,7 @@ import {Router} from "@angular/router";
   templateUrl: './edit-room.component.html',
   styleUrl: './edit-room.component.css'
 })
-export class EditRoomComponent implements OnInit{
+export class EditRoomComponent implements OnInit, OnDestroy{
 
  @Input({required: true}) room!: Room;
 
@@ -20,6 +22,9 @@ export class EditRoomComponent implements OnInit{
   layouts = Object.keys(Layout) as Array<keyof typeof Layout>;
 
   layoutEnum: any = Layout;
+
+  resetRoomFormEvent: typeof Subscription | any = Subscription;
+
 
   roomForm!: FormGroup<{
     roomName: FormControl<string | null>;
@@ -31,10 +36,25 @@ export class EditRoomComponent implements OnInit{
 
   constructor(private fb: FormBuilder,
               private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private formResetService: FormResetService) {
  }
 
   ngOnInit(): void {
+  //  Then we call our method here
+    this.initializeForm();
+  //  Here we subscribe.
+    this.formResetService.resetRoomFormEvent.subscribe((room) => {
+      this.room = room;
+      this.initializeForm();
+    })
+
+  }
+
+
+  //Moving the code in ngOnInit() method to a new method to fix the lifecycle bug.
+
+  initializeForm() {
 
     this.roomForm = this.fb.group({
       roomName: this.fb.control('roomName', Validators.required),
@@ -50,8 +70,8 @@ export class EditRoomComponent implements OnInit{
         `layout${layout}`,
         this.fb.control(initialCapacity)
       );
-    }
 
+    }
   }
 
   onSubmit() {
@@ -75,11 +95,15 @@ export class EditRoomComponent implements OnInit{
       this.dataService.updateRoom(this.room).subscribe((next) => {
         this.router.navigate(['admin', 'rooms'], {queryParams: {action: 'view', id: next.id}});
 
-      })
+      });
     }
-
   }
 
+  ngOnDestroy() {
+    if (!this.resetRoomFormEvent) {
+      this.resetRoomFormEvent.unsubscribe();
+    }
+  }
 
 
 }
