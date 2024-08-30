@@ -17,10 +17,10 @@
 
   @for (layout of this.layouts; track layout) {
   <div class="form-group">
-  <label for="layout{{layout}}">
+  <label for="layoutEnum{{layout}}">
   {{layoutEnum[layout]}}
   </label>
-  <input type="number" class="form-control" id="layout{{layout}}">
+  <input type="number" class="form-control" id="layout{{layout}}" formControlName="layout{{layout}}">
   </div>
   }
 
