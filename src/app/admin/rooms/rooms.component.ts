@@ -32,7 +32,7 @@ action!: string | any;
     })
     this.route.queryParams.subscribe((params) => {
       const id = params['id'];
-
+      this.action = null;
       if(id) {
         this.selectedRoom = this.rooms.find((room) => {
           this.action = params['action'];
