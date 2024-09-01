@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "./model/Room";
 import {User} from "./model/User";
 import {Observable, of} from "rxjs";
+import {Booking} from "./model/Booking";
+import {formatDate} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,7 @@ export class DataService {
 
  private rooms: Array<Room>;
  private users: Array<User>;
+ private bookings: Array<Booking>;
 
  getRooms() : Observable<Array<Room>> {
    return of(this.rooms);
@@ -17,6 +20,10 @@ export class DataService {
 
  getUsers() : Observable<Array<User>> {
    return of(this.users)
+ }
+
+ getBookings() : Observable<Array<Booking>> {
+   return  of(this.bookings);
  }
 
  updateUser(user: User) : Observable<any> {
@@ -119,6 +126,34 @@ export class DataService {
 
     this.users.push(user1);
     this.users.push(user2);
+
+    this.bookings = new Array<Booking>();
+    const booking1 = new Booking();
+    booking1.id = 1;
+    booking1.title = 'Meeting Conference With the CEO';
+    booking1.layout = Layout.USHAPE;
+    booking1.user = user1;
+    booking1.room = room1;
+    booking1.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-ZA');
+    booking1.endTime = '12:00';
+    booking1.startTime = '09:00';
+    booking1.participants = 20;
+
+
+    const booking2 = new Booking();
+    booking2.id = 1;
+    booking2.title = 'Meeting with the investors';
+    booking2.layout = Layout.THEATER;
+    booking2.user = user2;
+    booking2.room = room2;
+    booking2.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-ZA');
+    booking2.endTime = '08:00';
+    booking2.startTime = '11:00';
+    booking2.participants = 40;
+
+    this.bookings.push(booking1);
+    this.bookings.push(booking2);
+
 
   }
 

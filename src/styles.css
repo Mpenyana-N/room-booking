@@ -10,6 +10,7 @@ a {
 .row-striped:nth-of-type(even){
   background-color: #ffffff;
   border-left: 4px #efefef solid;
+  color: black;
 }
 
 .row-striped {
