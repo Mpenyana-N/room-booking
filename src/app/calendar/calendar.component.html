@@ -2,7 +2,7 @@
 
 <h2>The following meetings are taking place on: <input type="date"/></h2>
 
-<a class="btn btn-primary mt-3 mb-5">New Booking</a>
+<a class="btn btn-primary mt-3 mb-5" (click)="addBooking()">New Booking</a>
 
 @if (this.bookings.length <= 0) {
 <h3 class="mt-5">There are no meetings currently scheduled for this date.</h3>
@@ -11,7 +11,7 @@
 @for (booking of this.bookings; track booking.id) {
 <div class="row row-striped">
   <div class="col-2 text-right">
-    <h1 class="display-4"><span class="badge badge-secondary text-dark">{{booking.getDateAsDate() | date:'dd'}}</span></h1>
+    <h1 class="display-4"><span class="badge text-bg-secondary">{{booking.getDateAsDate() | date:'dd'}}</span></h1>
     <h2 class="">{{booking.getDateAsDate() | date:'MMM'}}</h2>
   </div>
   <div class="col-10">
@@ -28,8 +28,8 @@
         <p>Participants: {{booking.participants}}</p>
       </div>
       <div class="col-6">
-        <a class="btn btn-warning">Amend</a>
-        <a class="btn btn-danger">Cancel</a>
+        <a class="btn btn-warning m-2" (click)="editBooking(booking.id)">Amend</a>
+        <a class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancel</a>
       </div>
     </div>
   </div>

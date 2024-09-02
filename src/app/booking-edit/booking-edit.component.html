@@ -4,17 +4,17 @@
   <div class="row">
     <div class="form-group col-4">
       <label for="date">Date</label>
-      <input type="date" class="form-control" id="date">
+      <input type="date" class="form-control" id="date" [(ngModel)]="booking.date" name="date">
     </div>
 
     <div class="form-group col-4">
       <label for="startTime">Start time</label>
-      <input type="time" class="form-control" id="startTime">
+      <input type="time" class="form-control" id="startTime" [(ngModel)]="booking.startTime" name="startTime">
     </div>
 
     <div class="form-group col-4">
       <label for="endTime">End time</label>
-      <input type="time" class="form-control" id="endTime">
+      <input type="time" class="form-control" id="endTime" [(ngModel)]="booking.endTime" name="endTime">
     </div>
 
   </div>
@@ -23,23 +23,25 @@
 
     <div class="form-group col-5">
       <label for="room">Room</label>
-      <select class="form-control" id="room">
-        <!-- repeat the option for each room -->
-        <option>room</option>
+      <select class="form-control" id="room" [(ngModel)]="booking.room" name="room">
+        @for (room of rooms; track room.id) {
+        <option [ngValue]="room">{{room.name}}</option>
+        }
       </select>
     </div>
 
     <div class="form-group col-5">
       <label for="layout">Layout</label>
-      <select class="form-control" id="layout">
-        <!-- repeat the option for each layout -->
-        <option>layout</option>
+      <select class="form-control" id="layout" [(ngModel)]="booking.layout" name="layout">
+        @for (layout of layouts; track layout) {
+        <option [ngValue]="layoutEnum[layout]">{{layoutEnum[layout]}}</option>
+        }
       </select>
     </div>
 
     <div class="form-group col-2">
       <label for="participants">Participants</label>
-      <input type="number" class="form-control" id="participants">
+      <input type="number" class="form-control" id="participants" [(ngModel)]="booking.participants" name="participants">
     </div>
 
   </div>
@@ -47,21 +49,22 @@
   <div class="row">
     <div class="form-group col-6">
       <label for="layout">User</label>
-      <select class="form-control" id="user">
-        <!-- repeat the option for each user -->
-        <option>user</option>
+      <select class="form-control" id="user" [(ngModel)]="booking.user" name="user">
+      @for (user of users; track user.id) {
+        <option [ngValue]="user">{{user.name}}</option>
+        }
       </select>
     </div>
 
     <div class="form-group col-6">
       <label for="title">Meeting title</label>
-      <input type="text" class="form-control" id="title">
+      <input type="text" class="form-control" id="title" [(ngModel)]="booking.title" name="title">
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <button type="button" class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
     </div>
   </div>
 </form>

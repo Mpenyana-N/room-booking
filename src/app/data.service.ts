@@ -26,6 +26,10 @@ export class DataService {
    return  of(this.bookings);
  }
 
+ getBooking(id: number) : Observable<Booking | any> {
+   return of(this.bookings.find((b) => b.id === id))
+ }
+
  updateUser(user: User) : Observable<any> {
   const originalUser = this.users.find((u) => u.id === user.id);
   if (originalUser) {
@@ -41,6 +45,23 @@ export class DataService {
      originalRoom.name = room.name;
    }
    return of(originalRoom);
+ }
+
+ saveBooking(booking: Booking) : Observable<Booking | any> {
+  booking = new Booking();
+   const existingBooking = this.bookings.find((b) => b.id === booking.id);
+   if (existingBooking) {
+     existingBooking.id = booking.id;
+     existingBooking.date = booking.date;
+     existingBooking.user = booking.user;
+     existingBooking.room = booking.room;
+     existingBooking.layout = booking.layout;
+     existingBooking.title = booking.title;
+     existingBooking.participants = booking.participants;
+     existingBooking.endTime = booking.endTime;
+     existingBooking.startTime = booking.startTime;
+   }
+   return of(existingBooking);
  }
 
  addNewRoom(newRoom: Room) : Observable<Room> {
@@ -69,6 +90,28 @@ export class DataService {
    newUser.id = id + 1;
    this.users.push(newUser);
    return of(newUser);
+ }
+
+ addNewBooking(newBooking: Booking) : Observable<Booking> {
+   let id: number | any = 0;
+   for (let booking of this.bookings) {
+     if (booking.id) {
+       if (booking.id > id) {
+         id = booking.id
+       }
+     }
+   }
+   newBooking.id = id + 1;
+   this.bookings.push(newBooking);
+   return of(newBooking);
+ }
+
+ deleteMyBooking(id: number | undefined) : Observable<any> {
+   const delBooking = this.rooms.find((r) => r.id === id);
+   if (delBooking) {
+     this.bookings.splice(this.rooms.indexOf(delBooking), 1);
+   }
+   return of(null)
  }
 
   deleteRoom(id: number | undefined) : Observable<any> {

@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
 import {CommonModule} from "@angular/common";
+import {BookingEditComponent} from "../booking-edit/booking-edit.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'mn-calendar',
@@ -14,8 +16,8 @@ export class CalendarComponent implements OnInit {
 
   bookings!: Array<Booking>;
 
-
-  constructor(private dataService: DataService ) {
+  constructor(private dataService: DataService,
+              private router: Router) {
 
   }
 
@@ -23,11 +25,18 @@ export class CalendarComponent implements OnInit {
     this.dataService.getBookings().subscribe((next) => {
       this.bookings = next;
     })
-
-    console.log(this.bookings)
-
   }
 
+  editBooking(id: number | any) {
+    this.router.navigate(['bookingEdit'], {queryParams: {id}})
+  }
 
+  addBooking() {
+    this.router.navigate(['addBooking']);
+  }
+
+  deleteBooking(id: number | any) {
+    this.dataService.deleteMyBooking(id).subscribe();
+  }
 
 }
