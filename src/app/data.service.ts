@@ -22,8 +22,8 @@ export class DataService {
    return of(this.users)
  }
 
- getBookings() : Observable<Array<Booking>> {
-   return  of(this.bookings);
+ getBookings(date: string | any) : Observable<Array<Booking>> {
+   return  of(this.bookings.filter((d) => d.date === date));
  }
 
  getBooking(id: number) : Observable<Booking | any> {

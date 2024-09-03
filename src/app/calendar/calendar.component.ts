@@ -1,29 +1,39 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
-import {CommonModule} from "@angular/common";
-import {BookingEditComponent} from "../booking-edit/booking-edit.component";
-import {Router} from "@angular/router";
+import {CommonModule, formatDate} from "@angular/common";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'mn-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css'
 })
 export class CalendarComponent implements OnInit {
 
   bookings!: Array<Booking>;
+  selectedDate!: string;
+
+
 
   constructor(private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
-    this.dataService.getBookings().subscribe((next) => {
-      this.bookings = next;
+    this.route.queryParams.subscribe((params) => {
+      this.selectedDate = params['date'];
+      if (!this.selectedDate) {
+        this.selectedDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-ZA');
+      }
+      this.dataService.getBookings(this.selectedDate).subscribe((next) => {
+        this.bookings = next;
+      })
     })
   }
 
@@ -37,6 +47,10 @@ export class CalendarComponent implements OnInit {
 
   deleteBooking(id: number | any) {
     this.dataService.deleteMyBooking(id).subscribe();
+  }
+
+  dateChanged() {
+    this.router.navigate([''], {queryParams: {date: this.selectedDate}})
   }
 
 }

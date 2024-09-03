@@ -5,6 +5,7 @@ import {Layout, Room} from "../model/Room";
 import {User} from "../model/User";
 import {DataService} from "../data.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'mn-booking-edit',
@@ -21,6 +22,7 @@ users!: Array<User>;
 layouts = Object.keys(Layout);
 
 layoutEnum: typeof Layout | any =  Layout;
+
 
 constructor(private dataService: DataService,
             private route: ActivatedRoute,
